@@ -112,8 +112,12 @@ if menu == "🏠 Home":
                 <td style="padding: 2px 0;">: Yuhka Sundaya, S.E., M.Si.</td>
             </tr>
             <tr style="background: transparent;">
-                <td style="padding: 2px 0; font-weight: bold; vertical-align: top;">Kelompok 2</td>
-                <td style="padding: 2px 0;">: 1. Dadang (Ketua) | 2. Anggota 2 | 3. Anggota 3 | 4. Anggota 4</td>
+                <td style="padding: 2px 0; font-weight: bold; vertical-align: top;">PBL 6</td>
+                <td style="padding: 2px 0;">: 
+                    1. Radea Rahman Dwiyana (10090224001)<br>
+                    &nbsp;&nbsp;2. Bunga Wiati Manaki (10090224026)<br>
+                    &nbsp;&nbsp;3. Shidqi Alhamdani Mieftah (10090224032)
+                </td>
             </tr>
         </table>
     </div>
@@ -175,7 +179,6 @@ elif menu == "📊 Dashboard Profil":
             names='Kategori', 
             color_discrete_sequence=px.colors.sequential.Greens_r
         )
-        # Tanda kurung diturunkan bertahap agar tidak terpotong
         st.plotly_chart(
             fig_pie, 
             use_container_width=True
@@ -183,4 +186,63 @@ elif menu == "📊 Dashboard Profil":
     
     with c2:
         st.markdown("### Detail Parameter Vegetasi")
-        st
+        st.table(df_veg)
+
+# ==========================================
+# MENU 3: ANALISIS EKONOMI
+# ==========================================
+elif menu == "📈 Analisis Ekonomi":
+    st.subheader("📈 Tren Nilai Ekonomi vs Biaya Pengelolaan")
+    
+    kolom_y = []
+    if "nilai_ekonomi" in df_trend.columns:
+        kolom_y.append("nilai_ekonomi")
+    else:
+        kolom_y.append("Nilai Ekonomi (Rp)")
+        
+    if "biaya_pengelolaan" in df_trend.columns:
+        kolom_y.append("biaya_pengelolaan")
+    else:
+        kolom_y.append("Biaya Pengelolaan (Rp)")
+        
+    kolom_x = "tahun" if "tahun" in df_trend.columns else "Tahun"
+    kolom_visitor = "pengunjung" if "pengunjung" in df_trend.columns else "Pengunjung"
+
+    # Grafik 1: Perbandingan Finansial
+    fig_eco = px.line(
+        df_trend, 
+        x=kolom_x, 
+        y=kolom_y,
+        title="Perbandingan Nilai Jasa Lingkungan vs Biaya Operasional",
+        markers=True, 
+        color_discrete_sequence=["#2e7d32", "#e53935"]
+    )
+    fig_eco.update_layout(yaxis_title="Rupiah (Rp)", hovermode="x unified")
+    st.plotly_chart(
+        fig_eco, 
+        use_container_width=True
+    )
+    
+    st.write("---")
+    
+    # Grafik 2: Tren Pengunjung
+    fig_visitor = px.bar(
+        df_trend, 
+        x=kolom_x, 
+        y=kolom_visitor, 
+        title="Tren Pertumbuhan Pengunjung Tahunan",
+        color=kolom_visitor, 
+        color_continuous_scale="Greens"
+    )
+    st.plotly_chart(
+        fig_visitor, 
+        use_container_width=True
+    )
+
+    st.markdown("""
+    <div class="card" style="background: white; padding: 15px; border-radius: 10px; border-top: 4px solid #1b5e20; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+        💡 <b>Analisis:</b> Berdasarkan data historis hingga tahun target, Nilai Ekonomi Lingkungan jauh melampaui 
+        Biaya Pengelolaan operasional kawasan. Hal ini menunjukkan efisiensi ekosistem dalam memberikan 
+        jasa lingkungan yang sangat menguntungkan bagi ekonomi publik serta masyarakat Kota Bandung.
+    </div>
+    """, unsafe_allow_html=True)

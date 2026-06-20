@@ -39,22 +39,21 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
-# 2. LOAD DATA DARI REPO GITHUB CSV SIMPEL
+# 2. LOAD DATA DARI REPO GITHUB (NAMA FILE SESUAI REPO)
 # ==========================================
-# Nama file di bawah ini disesuaikan pas dengan repositori Anda sekarang
 files = {
-    "rangkuman": "rangkuman.csv",
-    "profil": "profil_hutan.csv",
-    "komposisi": "komposisi_hasil.csv",
-    "harga_getah": "harga_getah.csv",
-    "finansial": "finansial_proyek.csv"
+    "rangkuman": "Rangkuman.csv",  # Sudah menggunakan 'R' kapital sesuai repo Anda
+    "profil": "Profil Hutan KPH Sumedang.csv",
+    "komposisi": "Komposisi Hasil Hutan.csv",
+    "harga_getah": "Harga Getah Pinus.csv",
+    "finansial": "Proxy Pengelolaan Finansial.csv"
 }
 
 def load_csv_data(file_name):
     if os.path.exists(file_name):
         return pd.read_csv(file_name)
     else:
-        st.error(f"⚠️ File '{file_name}' tidak ditemukan di repositori GitHub! Periksa penulisan nama file Anda.")
+        st.error(f"⚠️ File '{file_name}' tidak ditemukan di repositori GitHub! Pastikan huruf besar-kecil dan spasi sudah benar.")
         st.stop()
 
 df_rangkuman = load_csv_data(files["rangkuman"])
@@ -63,11 +62,11 @@ df_komposisi = load_csv_data(files["komposisi"])
 df_harga = load_csv_data(files["harga_getah"])
 df_finansial = load_csv_data(files["finansial"])
 
-# Membersihkan nama kolom dan data string dari spasi/kapital tidak sengaja
+# Membersihkan nama kolom dari spasi tidak sengaja
 for df in [df_rangkuman, df_profil, df_komposisi, df_harga, df_finansial]:
     df.columns = df.columns.str.strip()
 
-# Mengambil metrik utama secara aman dari file rangkuman.csv
+# Mengambil metrik utama secara aman dari file Rangkuman.csv
 try:
     df_rangkuman['variable'] = df_rangkuman['variable'].str.strip().str.lower()
     luas_hutan = df_rangkuman.loc[df_rangkuman['variable'] == 'forest_area_ha', 'value'].values[0]
@@ -129,15 +128,23 @@ if menu == "🏠 Home":
 elif menu == "📊 Dashboard Profil & Komposisi":
     st.subheader("📊 Ringkasan Indikator Statis Potensi Wilayah")
     
+    try:
+        m1_val = f"{int(float(luas_hutan)):,}" if str(luas_hutan).replace('.','',1).isdigit() else luas_hutan
+        m2_val = f"{int(float(prod_getah)):,}" if str(prod_getah).replace('.','',1).isdigit() else prod_getah
+        m3_val = f"{int(float(prod_kayu)):,}" if str(prod_kayu).replace('.','',1).isdigit() else prod_kayu
+        m4_val = f"{int(float(stok_karbon)):,}" if str(stok_karbon).replace('.','',1).isdigit() else stok_karbon
+    except:
+        m1_val, m2_val, m3_val, m4_val = luas_hutan, prod_getah, prod_kayu, stok_karbon
+
     m1, m2, m3, m4 = st.columns(4)
     with m1:
-        st.markdown(f'<div class="metric-card"><div class="metric-title">Luas Wilayah Kerja</div><div class="metric-value">{luas_hutan:,} Ha</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric-card"><div class="metric-title">Luas Wilayah Kerja</div><div class="metric-value">{m1_val} Ha</div></div>', unsafe_allow_html=True)
     with m2:
-        st.markdown(f'<div class="metric-card"><div class="metric-title">Produksi Getah / Tahun</div><div class="metric-value">{prod_getah:,} Ton</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric-card"><div class="metric-title">Produksi Getah / Tahun</div><div class="metric-value">{m2_val} Ton</div></div>', unsafe_allow_html=True)
     with m3:
-        st.markdown(f'<div class="metric-card"><div class="metric-title">Produksi Kayu / Tahun</div><div class="metric-value">{prod_kayu:,} m³</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric-card"><div class="metric-title">Produksi Kayu / Tahun</div><div class="metric-value">{m3_val} m³</div></div>', unsafe_allow_html=True)
     with m4:
-        st.markdown(f'<div class="metric-card"><div class="metric-title">Estimasi Stok Karbon</div><div class="metric-value">{stok_karbon:,} Ton</div></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric-card"><div class="metric-title">Estimasi Stok Karbon</div><div class="metric-value">{m4_val} Ton</div></div>', unsafe_allow_html=True)
 
     st.write("---")
     

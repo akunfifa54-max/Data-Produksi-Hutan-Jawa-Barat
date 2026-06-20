@@ -13,7 +13,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# Custom CSS ditulis dalam baris pendek agar tidak terpotong
+# Custom CSS ditulis vertikal pendek agar tidak terpotong
 st.markdown("""
 <style>
     .block-container { padding: 2rem 4rem; background-color: #fcfdfe; }
@@ -59,7 +59,6 @@ df_jaling = load_csv_data(files["jasa_lingkungan"])
 df_veg = load_csv_data(files["tutupan_lahan"])
 df_trend = load_csv_data(files["trend"])
 
-# Ekstraksi Variabel Kunci
 try:
     luas_kawasan = df_ringkasan.loc[df_ringkasan['Variabel'] == 'Luas Kawasan', 'Nilai'].values[0]
     total_pengunjung = df_ringkasan.loc[df_ringkasan['Variabel'] == 'Jumlah Pengunjung', 'Nilai'].values[0]
@@ -91,45 +90,67 @@ menu = st.sidebar.radio(
 # MENU 1: HOME
 # ==========================================
 if menu == "🏠 Home":
-    # HTML Banner dipisah menjadi baris string konvensional agar aman dari cut-off
-    html_banner = """
-    <div class="banner">
-        <h1 style="color: white; margin:0; font-size: 38px;">BABAKAN SILIWANGI CITY FOREST</h1>
-        <h3 style="color: #a5d6a7; margin: 5px 0 0 0; font-size: 22px; font-weight: bold;">PBL 6</h3>
-        <p style="margin: 5px 0 15px 0; font-size: 16px; opacity: 0.9;">
-            Valuasi Ekonomi & Monitoring Ekosistem Hutan Kota (Tahun Acuan 2025)
-        </p>
-        <hr style="border-color: rgba(255,255,255,0.2); margin-bottom: 15px;">
-        <table style="color: white; font-size: 14px; border: none; width: 100%;">
-            <tr style="background: transparent;">
-                <td style="padding: 2px 0; width: 150px; font-weight: bold;">Institusi</td>
-                <td style="padding: 2px 0;">: UNIVERSITAS ISLAM BANDUNG</td>
-            </tr>
-            <tr style="background: transparent;">
-                <td style="padding: 2px 0; font-weight: bold;">Mata Kuliah</td>
-                <td style="padding: 2px 0;">: Ekonomi Sumber Daya Alam dan Lingkungan</td>
-            </tr>
-            <tr style="background: transparent;">
-                <td style="padding: 2px 0; font-weight: bold;">Dosen Pengampu</td>
-                <td style="padding: 2px 0;">: Yuhka Sundaya, S.E., M.Si.</td>
-            </tr>
-            <tr style="background: transparent;">
-                <td style="padding: 2px 0; font-weight: bold; vertical-align: top;">Nama Kelompok</td>
-                <td style="padding: 2px 0;">: 
-                    1. Radea Rahman Dwiyana (10090224001)<br>
-                    &nbsp;&nbsp;2. Bunga Wiati Manaki (10090224026)<br>
-                    &nbsp;&nbsp;3. Shidqi Alhamdani Mieftah (10090224032)
-                </td>
-            </tr>
-        </table>
-    </div>
-    """
-    st.markdown(html_banner, unsafe_allow_html=True)
+    # Banner HTML dipecah per baris pendek agar mustahil terpotong sistem hosting
+    hb = '<div class="banner">'
+    hb += '<h1 style="color: white; margin:0; font-size: 38px;">BABAKAN SILIWANGI CITY FOREST</h1>'
+    hb += '<h3 style="color: #a5d6a7; margin: 5px 0 0 0; font-size: 22px; font-weight: bold;">PBL 6</h3>'
+    hb += '<p style="margin: 5px 0 15px 0; font-size: 16px; opacity: 0.9;">'
+    hb += 'Valuasi Ekonomi & Monitoring Ekosistem Hutan Kota (Tahun Acuan 2025)'
+    hb += '</p><hr style="border-color: rgba(255,255,255,0.2); margin-bottom: 15px;">'
+    hb += '<table style="color: white; font-size: 14px; border: none; width: 100%;">'
+    hb += '<tr style="background: transparent;">'
+    hb += '<td style="padding: 2px 0; width: 150px; font-weight: bold;">Institusi</td>'
+    hb += '<td>: UNIVERSITAS ISLAM BANDUNG</td></tr>'
+    hb += '<tr style="background: transparent;">'
+    hb += '<td style="font-weight: bold;">Mata Kuliah</td>'
+    hb += '<td>: Ekonomi Sumber Daya Alam dan Lingkungan</td></tr>'
+    hb += '<tr style="background: transparent;">'
+    hb += '<td style="font-weight: bold;">Dosen Pengampu</td>'
+    hb += '<td>: Yuhka Sundaya, S.E., M.Si.</td></tr>'
+    hb += '<tr style="background: transparent;">'
+    hb += '<td style="font-weight: bold; vertical-align: top;">Nama Kelompok</td>'
+    hb += '<td>: 1. Radea Rahman Dwiyana (10090224001)<br>'
+    hb += '&nbsp;&nbsp;2. Bunga Wiati Manaki (10090224026)<br>'
+    hb += '&nbsp;&nbsp;3. Shidqi Alhamdani Mieftah (10090224032)</td>'
+    hb += '</tr></table></div>'
+    
+    st.markdown(hb, unsafe_allow_html=True)
 
     col_a, col_b = st.columns([1, 1])
     with col_a:
         jenis_hutan = df_profil.loc[df_profil['Parameter'] == 'Jenis Hutan', 'Nilai'].values[0]
         status_hutan = df_profil.loc[df_profil['Parameter'] == 'Status', 'Nilai'].values[0]
         
-        # String dibentuk secara ringkas tanpa menggunakan multi-line literal f-string yang berisiko
-        txt_deskripsi = f'<div class="info-card"><h4>🌿 Deskripsi Kawasan</h4><p>Babakan Siliwangi (Baksil) adalah <b>{jenis_hutan}</b> di Kota Bandung dengan status <b>{status_hutan}</b>. Kawasan
+        # Penyambungan string pendek untuk deskripsi kawasan
+        td = '<div class="info-card"><h4>🌿 Deskripsi Kawasan</h4>'
+        td += f'<p>Babakan Siliwangi (Baksil) adalah <b>{jenis_hutan}</b> '
+        td += f'di Kota Bandung dengan status <b>{status_hutan}</b>. '
+        td += 'Kawasan ini berfungsi sebagai paru-paru kota sekaligus ruang terbuka '
+        td += 'hijau primer bagi masyarakat ekosistem perkotaan.</p></div>'
+        
+        st.markdown(td, unsafe_allow_html=True)
+    
+    with col_b:
+        ketinggian = df_profil.loc[df_profil['Parameter'] == 'Ketinggian', 'Nilai'].values[0]
+        curah_hujan = df_profil.loc[df_profil['Parameter'] == 'Curah Hujan (mm/tahun)', 'Nilai'].values[0]
+        suhu = df_profil.loc[df_profil['Parameter'] == 'Suhu Rata-rata (C)', 'Nilai'].values[0]
+        vegetasi = df_profil.loc[df_profil['Parameter'] == 'Dominan Vegetasi', 'Nilai'].values[0]
+        
+        # Penyambungan string pendek untuk parameter lingkungan
+        tp = '<div class="info-card"><h4>📑 Parameter Lingkungan</h4><ul>'
+        tp += f'<li><b>Ketinggian:</b> {ketinggian} mdpl</li>'
+        tp += f'<li><b>Curah Hujan:</b> {curah_hujan} mm/tahun</li>'
+        tp += f'<li><b>Suhu Rata-rata:</b> {suhu}°C</li>'
+        tp += f'<li><b>Vegetasi Dominan:</b> {vegetasi}</li></ul></div>'
+        
+        st.markdown(tp, unsafe_allow_html=True)
+
+# ==========================================
+# MENU 2: DASHBOARD PROFIL
+# ==========================================
+elif menu == "📊 Dashboard Profil":
+    st.subheader("📊 Ringkasan Indikator Babakan Siliwangi")
+    
+    m1, m2, m3, m4 = st.columns(4)
+    with m1:
+        st.markdown(f'<div class

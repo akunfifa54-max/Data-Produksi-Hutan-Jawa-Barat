@@ -40,8 +40,8 @@ col1, col2, col3 = st.columns([1,2,1])
 
 with col2:
     st.image(
-        "https://upload.wikimedia.org/wikipedia/id/thumb/8/89/Logo_UNISBA.svg/512px-Logo_UNISBA.svg.png",
-        width=180
+       with col2:
+    st.image("OIP.webp", width=180)
     )
 
 st.markdown("""

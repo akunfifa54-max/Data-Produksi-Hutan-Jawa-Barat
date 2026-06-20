@@ -1,19 +1,16 @@
 import streamlit as st
-import pandas as pd
-import plotly.express as px
-from sklearn.linear_model import LinearRegression
 
 # =========================
-# SET PAGE
+# CONFIG
 # =========================
 st.set_page_config(
-    page_title="Babakan Siliwangi Dashboard",
+    page_title="Eco-Forest Valuation",
     page_icon="🌳",
     layout="wide"
 )
 
 # =========================
-# CSS (BIAR RAPI SEPERTI DASHBOARD)
+# CSS STYLE
 # =========================
 st.markdown("""
 <style>
@@ -33,128 +30,158 @@ h1, h2, h3 {
 """, unsafe_allow_html=True)
 
 # =========================
-# LOAD DATA (WAJIB SESUAI FILE GITHUB)
+# HEADER
 # =========================
-df = pd.read_csv("babakan_siliwangi.csv")
-
-# =========================
-# HEADER / COVER
-# =========================
-col1, col2, col3 = st.columns([1,2,1])
-
-with col2:
-    st.image(
-        "https://upload.wikimedia.org/wikipedia/id/thumb/8/89/Logo_UNISBA.svg/512px-Logo_UNISBA.svg.png",
-        width=140
-    )
-
 st.markdown("""
-# UNIVERSITAS ISLAM BANDUNG  
-### Fakultas Ekonomi dan Bisnis  
-### Ekonomi Sumber Daya Alam dan Lingkungan  
+# 🌳 Eco-Forest Valuation  
+### Aplikasi Pembelajaran Ekonomi Sumber Daya Hutan  
+**Referensi: Tietenberg & Lewis (Chapter 13)**  
 
 ---
 
-# 🌳 BABAKAN SILIWANGI CITY FOREST DASHBOARD
+## UNIVERSITAS ISLAM BANDUNG  
+Fakultas Ekonomi dan Bisnis | Ekonomi Pembangunan  
+
+### Tugas Kelompok: Ekonomi Sumber Daya Hutan (Kalimantan Selatan)
 """)
 
-st.markdown("### Kelompok 2: Dadang dkk")
 st.divider()
 
 # =========================
 # SIDEBAR MENU
 # =========================
 menu = st.sidebar.radio(
-    "MENU",
-    ["Home", "Data", "Visualisasi", "Prediksi"]
+    "📚 PILIH MODUL PEMBELAJARAN",
+    [
+        "Halaman Utama & Teori",
+        "Modul 1: Kalkulator TEV",
+        "Modul 2: Analisis Trade-off",
+        "Modul 3: Kebijakan PES",
+        "Modul 4: Kasus Interaktif"
+    ]
 )
 
 # =========================
-# HOME
+# HOME / TEORI
 # =========================
-if menu == "Home":
+if menu == "Halaman Utama & Teori":
 
-    st.subheader("📌 Ringkasan")
-    
-    col1, col2, col3 = st.columns(3)
+    st.subheader("📘 Teori Dasar Ekonomi Ekosistem Hutan")
 
-    col1.metric("Total Tahun", df["tahun"].nunique())
-    col2.metric("Rata-rata Kunjungan", int(df["produksi"].mean()))
-    col3.metric("Total Kunjungan", int(df["produksi"].sum()))
+    st.write("""
+Ekonomi sumber daya hutan berfokus pada nilai total ekosistem yang disebut **Total Economic Value (TEV)**.
+    """)
 
-    st.image(
-        "https://upload.wikimedia.org/wikipedia/commons/0/07/Forest.jpg"
-    )
+    st.markdown("### 📊 Klasifikasi Jasa Lingkungan")
 
-# =========================
-# DATA
-# =========================
-elif menu == "Data":
-
-    st.subheader("📄 Dataset")
-
-    st.dataframe(df, use_container_width=True)
-
-# =========================
-# VISUALISASI
-# =========================
-elif menu == "Visualisasi":
-
-    st.subheader("📊 Grafik Kunjungan")
-
-    fig = px.line(
-        df,
-        x="tahun",
-        y="produksi",
-        markers=True,
-        title="Tren Kunjungan Babakan Siliwangi"
-    )
-
-    st.plotly_chart(fig, use_container_width=True)
-
-    fig2 = px.bar(
-        df,
-        x="tahun",
-        y="produksi",
-        title="Kunjungan per Tahun"
-    )
-
-    st.plotly_chart(fig2, use_container_width=True)
-
-# =========================
-# PREDIKSI
-# =========================
-elif menu == "Prediksi":
-
-    st.subheader("🔮 Prediksi Kunjungan")
-
-    X = df[["tahun"]]
-    y = df["produksi"]
-
-    model = LinearRegression()
-    model.fit(X, y)
-
-    tahun = st.number_input(
-        "Masukkan Tahun",
-        min_value=int(df["tahun"].max()),
-        value=int(df["tahun"].max() + 1)
-    )
-
-    pred = model.predict([[tahun]])[0]
-
-    st.success(f"Prediksi Kunjungan: {int(pred):,}")
-
-    hasil = pd.DataFrame({
-        "tahun": list(df["tahun"]) + [tahun],
-        "produksi": list(df["produksi"]) + [pred]
+    st.table({
+        "Kategori": ["Provisioning", "Regulating", "Cultural", "Supporting"],
+        "Definisi": [
+            "Penyedia barang fisik langsung",
+            "Pengatur proses alam",
+            "Manfaat rekreasi & spiritual",
+            "Proses dasar ekosistem"
+        ],
+        "Contoh": [
+            "Kayu, air, hasil hutan",
+            "Karbon, penyerbukan",
+            "Ekowisata, estetika",
+            "Siklus nutrisi"
+        ],
+        "Metode Valuasi": [
+            "Market Price",
+            "Replacement Cost",
+            "Travel Cost / WTP",
+            "Indirect Valuation"
+        ]
     })
 
-    fig = px.line(
-        hasil,
-        x="tahun",
-        y="produksi",
-        markers=True,
-        title="Prediksi Tren Kunjungan"
+    st.markdown("""
+---
+
+### 📈 Komposisi TEV Hutan Tropis
+- Regulating Services: **45%**
+- Provisioning (Kayu): **25%**
+- Cultural Services: **20%**
+- Supporting Services: **10%**
+
+👉 Menunjukkan bahwa nilai terbesar hutan bukan hanya kayu, tetapi fungsi ekologisnya.
+""")
+
+# =========================
+# MODUL 1 TEV
+# =========================
+elif menu == "Modul 1: Kalkulator TEV":
+
+    st.subheader("💰 Kalkulator Total Economic Value (TEV)")
+
+    provisioning = st.number_input("Nilai Provisioning (Kayu)", 0)
+    regulating = st.number_input("Nilai Regulating (Karbon)", 0)
+    cultural = st.number_input("Nilai Cultural (Wisata)", 0)
+    supporting = st.number_input("Nilai Supporting", 0)
+
+    tev = provisioning + regulating + cultural + supporting
+
+    st.success(f"Total Economic Value (TEV): Rp {tev:,.0f}")
+
+# =========================
+# MODUL 2 TRADE-OFF
+# =========================
+elif menu == "Modul 2: Analisis Trade-off":
+
+    st.subheader("⚖️ Trade-off Pemanfaatan Hutan")
+
+    kayu = st.slider("Intensitas Penebangan Kayu", 0, 100, 30)
+    konservasi = 100 - kayu
+
+    st.write("📊 Hasil Analisis:")
+    st.write(f"- Eksploitasi Kayu: {kayu}%")
+    st.write(f"- Konservasi: {konservasi}%")
+
+    if kayu > 60:
+        st.error("Risiko deforestasi tinggi!")
+    else:
+        st.success("Pemanfaatan masih berkelanjutan")
+
+# =========================
+# MODUL 3 PES
+# =========================
+elif menu == "Modul 3: Kebijakan PES":
+
+    st.subheader("🌿 Payment for Ecosystem Services (PES)")
+
+    st.write("""
+PES adalah mekanisme pembayaran untuk menjaga jasa lingkungan.
+    """)
+
+    st.markdown("""
+Contoh:
+- Petani menjaga hutan → dibayar pemerintah
+- Perusahaan karbon → membayar konservasi
+    """)
+
+    dana = st.number_input("Dana PES (Rp)", 0)
+
+    if dana > 1000000:
+        st.success("Program PES berjalan efektif")
+    else:
+        st.warning("Dana masih rendah untuk dampak signifikan")
+
+# =========================
+# MODUL 4 KASUS
+# =========================
+elif menu == "Modul 4: Kasus Interaktif":
+
+    st.subheader("🌳 Studi Kasus: Hutan Tropis Kalimantan Selatan")
+
+    opsi = st.selectbox(
+        "Pilih Kebijakan",
+        ["Eksploitasi Kayu", "Konservasi Total", "Eco-Tourism"]
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    if opsi == "Eksploitasi Kayu":
+        st.error("Pendapatan tinggi jangka pendek, kerusakan lingkungan tinggi")
+    elif opsi == "Konservasi Total":
+        st.success("Lingkungan terjaga, pendapatan ekonomi rendah")
+    else:
+        st.info("Keseimbangan ekonomi dan lingkungan lebih optimal")

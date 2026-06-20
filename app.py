@@ -4,7 +4,7 @@ import streamlit as st
 # CONFIG
 # =========================
 st.set_page_config(
-    page_title="BL 6 - Eco Forest",
+    page_title="BL 6 - Eco Forest Valuation",
     page_icon="🌳",
     layout="wide"
 )
@@ -39,17 +39,22 @@ h1, h2, h3 {
     text-align: center;
     font-weight: bold;
     color: #1b5e20;
+    box-shadow: 0px 2px 8px rgba(0,0,0,0.05);
+}
+
+[data-testid="stSidebar"] {
+    background-color: #f5f7f6;
 }
 
 </style>
 """, unsafe_allow_html=True)
 
 # =========================
-# HEADER (BL 6 STYLE + DISESUIKAN)
+# HEADER
 # =========================
 st.markdown("""
 # 🌳 BL 6 — Eco-Forest Valuation System  
-## Aplikasi Analisis Ekonomi Sumber Daya Hutan  
+## Babakan Siliwangi (Urban Forest Bandung)
 
 ---
 
@@ -70,42 +75,69 @@ Yuhka Sundaya, S.E., M.Si.
 st.divider()
 
 # =========================
-# SIDEBAR MENU (KPH CEPU STYLE)
+# SIDEBAR
 # =========================
 menu = st.sidebar.radio(
-    "📌 NAVIGASI SISTEM",
+    "📌 NAVIGASI",
     [
         "🏠 Dashboard Utama",
         "🌳 Profil Hutan",
-        "🪵 Produksi & Data",
+        "🪵 Produksi",
         "📊 Master Data",
-        "📈 Dashboard Summary",
-        "⚙️ Simulasi Valuasi"
+        "📈 Dashboard",
+        "⚙️ Simulasi TEV"
     ]
 )
 
 # =========================
-# DASHBOARD UTAMA
+# DASHBOARD UTAMA (KPI STYLE)
 # =========================
 if menu == "🏠 Dashboard Utama":
 
-    col1, col2, col3 = st.columns(3)
+    st.markdown("## 📊 Dashboard Ringkasan")
+
+    col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-        st.markdown('<div class="metric-box">🌳 Profil Hutan</div>', unsafe_allow_html=True)
+        st.markdown("""
+        <div class="metric-box">
+        🌳 Profil Hutan<br><br>
+        <h2>19</h2>
+        </div>
+        """, unsafe_allow_html=True)
 
     with col2:
-        st.markdown('<div class="metric-box">🪵 Produksi Kayu</div>', unsafe_allow_html=True)
+        st.markdown("""
+        <div class="metric-box">
+        🪵 Produksi<br><br>
+        <h2>12</h2>
+        </div>
+        """, unsafe_allow_html=True)
 
     with col3:
-        st.markdown('<div class="metric-box">📊 Master Data</div>', unsafe_allow_html=True)
+        st.markdown("""
+        <div class="metric-box">
+        📊 Master Data<br><br>
+        <h2>28</h2>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col4:
+        st.markdown("""
+        <div class="metric-box">
+        📈 Dashboard<br><br>
+        <h2>6</h2>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.divider()
 
     st.markdown("""
     <div class="card">
     <h3>📌 Deskripsi Aplikasi</h3>
 
     Aplikasi ini digunakan untuk analisis ekonomi sumber daya hutan pada kawasan 
-    <b>Babakan Siliwangi / Hutan Kota Bandung</b> berbasis konsep valuasi ekonomi lingkungan.
+    <b>Babakan Siliwangi (Urban Forest Bandung)</b>.
 
     <br><br>
     Fitur utama:
@@ -113,9 +145,8 @@ if menu == "🏠 Dashboard Utama":
         <li>Profil Hutan</li>
         <li>Produksi / Aktivitas Ekosistem</li>
         <li>Master Data Lingkungan</li>
-        <li>Simulasi Valuasi Ekonomi (TEV)</li>
+        <li>Simulasi TEV</li>
         <li>Dashboard Summary</li>
-        <li>Analisis Ekonomi Lingkungan</li>
     </ul>
     </div>
     """, unsafe_allow_html=True)
@@ -127,35 +158,36 @@ elif menu == "🌳 Profil Hutan":
 
     st.markdown("""
     <div class="card">
-    <h3>🌳 Babakan Siliwangi (Urban Forest Bandung)</h3>
+    <h3>🌳 Babakan Siliwangi</h3>
 
-    • Fungsi: Ruang Terbuka Hijau (RTH)  
-    • Lokasi: Kota Bandung  
-    • Status: Hutan Kota / Urban Forest  
-    • Fungsi Ekonomi: Rekreasi, karbon, edukasi  
-    • Fungsi Ekologi: Penyerapan CO₂, penyejuk kota  
+    Urban Forest Kota Bandung yang berfungsi sebagai:
+    <br><br>
+    • Paru-paru kota  
+    • Ruang terbuka hijau  
+    • Wisata alam  
+    • Penyerap karbon  
+    • Edukasi lingkungan  
     </div>
     """, unsafe_allow_html=True)
 
 # =========================
-# PRODUKSI / DATA
+# PRODUKSI
 # =========================
-elif menu == "🪵 Produksi & Data":
+elif menu == "🪵 Produksi":
 
     st.markdown("""
     <div class="card">
-    <h3>🪵 Aktivitas Ekosistem (Proxy Produksi)</h3>
+    <h3>🪵 Aktivitas Ekosistem</h3>
 
-    Dalam konteks hutan kota, “produksi” diartikan sebagai:
-    <ul>
-        <li>Jumlah kunjungan masyarakat</li>
-        <li>Aktivitas wisata alam</li>
-        <li>Pemanfaatan ruang publik</li>
-    </ul>
+    Dalam hutan kota, produksi tidak berupa kayu, tetapi:
+    <br>
+    • Jumlah pengunjung  
+    • Aktivitas wisata  
+    • Pemanfaatan ruang publik  
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown('<div class="metric-box">📊 Data bersifat estimasi berbasis tren urban tourism</div>', unsafe_allow_html=True)
+    st.info("Data bersifat estimasi berbasis aktivitas urban forest")
 
 # =========================
 # MASTER DATA
@@ -164,37 +196,37 @@ elif menu == "📊 Master Data":
 
     st.markdown("""
     <div class="card">
-    <h3>📊 Struktur Data Ekonomi Hutan</h3>
+    <h3>📊 Klasifikasi Jasa Lingkungan</h3>
 
-    • Provisioning → udara, air  
-    • Regulating → karbon, suhu  
-    • Cultural → wisata, estetika  
-    • Supporting → biodiversitas  
+    • Provisioning: udara bersih, air tanah  
+    • Regulating: karbon, suhu  
+    • Cultural: wisata & estetika  
+    • Supporting: biodiversitas  
     </div>
     """, unsafe_allow_html=True)
 
 # =========================
-# DASHBOARD SUMMARY
+# DASHBOARD
 # =========================
-elif menu == "📈 Dashboard Summary":
+elif menu == "📈 Dashboard":
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.markdown('<div class="metric-box">🌳 Ekosistem Stabil</div>', unsafe_allow_html=True)
+        st.success("🌿 Ekosistem Stabil")
 
     with col2:
-        st.markdown('<div class="metric-box">💰 Nilai Ekonomi Tinggi</div>', unsafe_allow_html=True)
+        st.success("💰 Nilai Ekonomi Tinggi")
 
     with col3:
-        st.markdown('<div class="metric-box">🌿 Fungsi Lingkungan Aktif</div>', unsafe_allow_html=True)
+        st.success("🌳 Fungsi Lingkungan Aktif")
 
 # =========================
-# SIMULASI
+# SIMULASI TEV
 # =========================
-elif menu == "⚙️ Simulasi Valuasi":
+elif menu == "⚙️ Simulasi TEV":
 
-    st.subheader("💰 Simulasi Total Economic Value (TEV)")
+    st.subheader("💰 Total Economic Value (TEV)")
 
     p = st.number_input("Provisioning", 0)
     r = st.number_input("Regulating", 0)
@@ -205,7 +237,7 @@ elif menu == "⚙️ Simulasi Valuasi":
 
     st.markdown(f"""
     <div class="metric-box">
-    TOTAL ECONOMIC VALUE (TEV)<br><br>
+    TOTAL TEV<br><br>
     Rp {total:,.0f}
     </div>
     """, unsafe_allow_html=True)

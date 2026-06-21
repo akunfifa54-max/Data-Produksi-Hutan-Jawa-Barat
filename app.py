@@ -6,7 +6,7 @@ import os
 from PIL import Image
 
 # ==========================================
-# 1. ULTRA-CLEAN CORPORATE LIGHT MODE (ANTI-NYARU)
+# 1. FIXED CORPORATE LIGHT MODE
 # ==========================================
 st.set_page_config(
     page_title="KPH Sumedang Eco-Forest Valuation Dashboard",
@@ -15,102 +15,79 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS Light Mode - Latarna Bodas tapi Teksna Di-Bold & Dipoékan ambeh Kaciri ku Dosen
+# Custom CSS Light Mode - Mengunci warna teks agar kontras tinggi
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
     
-    /* Base Light Background */
+    /* Base Background App & Main Content */
     html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
-        background-color: #f8fafc !important; /* Bodas bersih rada abu saeutik ambeh teu peureum teuing */
-        color: #0f172a !important; /* Teks murni poék/hideung ambeh kaciri */
+        background-color: #f8fafc !important; 
+        color: #0f172a !important; 
         font-family: 'Plus Jakarta Sans', sans-serif;
     }
     
-    /* Container Utama */
     .block-container { 
         padding: 2.5rem 4.5rem; 
         background-color: #ffffff !important; 
-        box-shadow: 0 0 20px rgba(0,0,0,0.05);
     }
     
-    /* Headings Akbar - Kontras Tinggi */
+    /* Headings */
     h1, h2, h3, h4, h5, h6 { 
-        color: #166534 !important; /* Héjo kolot formal corporate */
+        color: #166534 !important; 
         font-weight: 700; 
-        letter-spacing: -0.5px; 
     }
     
-    /* Jumbotron Hero Banner (Tetep Héjo Daun Formal) */
+    /* Jumbotron Hero Banner */
     .hero-banner {
         background: linear-gradient(135deg, #14532d 0%, #166534 50%, #15803d 100%);
-        color: #ffffff !important; 
-        padding: 45px; 
-        border-radius: 20px; 
-        margin-bottom: 35px;
-        box-shadow: 0 10px 25px rgba(22, 101, 52, 0.15);
+        padding: 45px; border-radius: 20px; margin-bottom: 35px;
     }
     .hero-banner h1, .hero-banner p { color: #ffffff !important; }
     
-    /* Metrik Card - Bodas tapi Garisna Tebal & Poék */
+    /* Sidebar */
+    section[data-testid="stSidebar"] { 
+        background-color: #ffffff !important; 
+        border-right: 1px solid #e2e8f0 !important;
+    }
+    
+    section[data-testid="stSidebar"] .stMarkdown p, 
+    section[data-testid="stSidebar"] h2, 
+    section[data-testid="stSidebar"] h4,
+    section[data-testid="stSidebar"] span,
+    section[data-testid="stSidebar"] label {
+        color: #0f172a !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Warna teks pilihan Radio Button / Menu Navigasi */
+    div[data-testid="stRadio"] label p {
+        color: #0f172a !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Metrik Card */
     .metric-container {
         background: #f8fafc !important; 
-        border: 2px solid #1e40af !important; /* Garis bulao ambeh tegas di mata dosen */
-        border-radius: 16px;
-        padding: 26px 22px; 
-        text-align: center; 
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border: 2px solid #1e40af !important; 
+        border-radius: 16px; padding: 26px 22px; text-align: center; 
     }
-    .metric-hdr { 
-        font-size: 12px; 
-        color: #334155 !important; /* Abu poék tegas */
-        text-transform: uppercase; 
-        font-weight: 700; 
-        letter-spacing: 1px; 
-    }
-    .metric-val { 
-        font-size: 30px; 
-        font-weight: 800; 
-        color: #1e3a8a !important; /* Bulao kolot solid */
-        margin-top: 8px; 
-    }
+    .metric-hdr { font-size: 12px; color: #475569 !important; text-transform: uppercase; font-weight: 700; }
+    .metric-val { font-size: 30px; font-weight: 800; color: #1e3a8a !important; margin-top: 8px; }
     
-    /* Kotak Info Spesifik - Warna Kontras */
+    /* Kotak Info */
     .info-box-warn {
-        background-color: #fef3c7 !important; 
-        border-left: 6px solid #d97706 !important;
-        padding: 22px; 
-        border-radius: 12px; 
-        margin-top: 20px; 
-        color: #78350f !important; /* Tulisan coklat poék pisan */
-        border: 1px solid #f59e0b;
+        background-color: #fef3c7 !important; border-left: 6px solid #d97706 !important;
+        padding: 22px; border-radius: 12px; margin-top: 20px; color: #78350f !important;
     }
     .info-box-success {
-        background-color: #dcfce7 !important; 
-        border-left: 6px solid #16a34a !important;
-        padding: 22px; 
-        border-radius: 12px; 
-        margin-top: 20px; 
-        color: #14532d !important; /* Tulisan héjo poék pisan */
-        border: 1px solid #22c55e;
+        background-color: #dcfce7 !important; border-left: 6px solid #16a34a !important;
+        padding: 22px; border-radius: 12px; margin-top: 20px; color: #14532d !important;
     }
     
-    /* Sidebar Semi-Dark / Kontras Tinggi (Aman pikeun Presentasi) */
-    section[data-testid="stSidebar"] { 
-        background-color: #0f172a !important; /* Dipasihan poék saeutik di gigir ambeh katingal mewah & elegan */
-    }
-    section[data-testid="stSidebar"] .stMarkdown p, section[data-testid="stSidebar"] h2 {
-        color: #ffffff !important;
-    }
-    section[data-testid="stSidebar"] label {
-        color: #38bdf8 !important; /* Warna biru caang khusus label input */
-        font-weight: 700;
-    }
-    
-    /* Sadaya teks biasa di-force ambeh warnana Poék/Hideung (Moal Nyaru) */
-    .stMarkdown, p, span, li, label {
+    .stMarkdown, p, span, li {
         color: #0f172a !important;
-        font-weight: 500;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -157,11 +134,11 @@ logo_path = "OIP.webp"
 if os.path.exists(logo_path):
     st.sidebar.image(Image.open(logo_path), use_container_width=True)
 
-st.sidebar.markdown("<h2 style='text-align: center; margin-top:5px; font-size:20px; color:#ffffff; font-weight:700;'>PBL KELOMPOK 2</h2>", unsafe_allow_html=True)
-st.sidebar.markdown("<p style='text-align: center; color: #94a3b8; font-size:13px; margin-top:-10px;'>Ekonomi Sumber Daya Alam & Lingkungan</p>", unsafe_allow_html=True)
-st.sidebar.markdown("<hr style='border-color: #1e3a8a;'>", unsafe_allow_html=True)
+st.sidebar.markdown("<h2 style='text-align: center; margin-top:5px; font-size:20px; color:#166534; font-weight:700;'>PBL KELOMPOK 2</h2>", unsafe_allow_html=True)
+st.sidebar.markdown("<p style='text-align: center; color: #475569; font-size:13px; margin-top:-10px;'>Ekonomi Sumber Daya Alam & Lingkungan</p>", unsafe_allow_html=True)
+st.sidebar.markdown("<hr style='border-color: #cbd5e1;'>", unsafe_allow_html=True)
 
-st.sidebar.markdown("✨ <span style='color:white;'>**Menu Navigasi Utama:**</span>", unsafe_allow_html=True)
+st.sidebar.markdown("✨ **Menu Navigasi Utama:**")
 menu = st.sidebar.radio(
     "Pilih Halaman Analisis:",
     [
@@ -170,13 +147,12 @@ menu = st.sidebar.radio(
         "📦 Neraca Aliran Production", 
         "💰 Valuasi TEV & Ekonomi Makro",
         "⚖️ Batas Kebijakan Trade-Off",
-        "📊 Simulator Finansial Interaktif",
+        "📊 Slider Simulasi Finansial",  # FIX: Diubah menjadi Slider Simulasi
         "📂 Validasi Master Data CSV"
     ],
     label_visibility="collapsed"
 )
 
-# Layout Grafik pikeun Light Mode (Bodas Bersih & Jelas)
 def apply_light_theme_layout(fig):
     fig.update_layout(
         plot_bgcolor='rgba(255,255,255,1)',
@@ -368,13 +344,12 @@ elif menu == "⚖️ Batas Kebijakan Trade-Off":
     """, unsafe_allow_html=True)
 
 # ==========================================
-# MODUL 6: SIMULATOR FINANSIAL INTERAKTIF
+# MODUL 6: SLIDER SIMULASI FINANSIAL
 # ==========================================
-elif menu == "📊 Simulator Finansial Interaktif":
-    st.header("📊 Simulator Sensitivitas & Kelayakan Finansial Dinamis")
+elif menu == "📊 Slider Simulasi Finansial":  # FIX: Diubah menjadi Slider Simulasi
+    st.header("📊 Slider Simulasi Sensitivitas & Kelayakan Finansial Dinamis")  # FIX: Diubah judulnya
     st.write("Uji ketahanan finansial investasi KPH Sumedang dumasar kana parobahan harga getah pinus sacara real-time.")
 
-    # Slider Kontrol Interaktif (Sisi Bulao caang ambeh kontras di sidebar)
     harga_simulasi = st.slider(
         "Atur Prakiraan Harga Jual Getah Pinus (Rupiah / Kilogram):",
         min_value=5000,
@@ -383,7 +358,6 @@ elif menu == "📊 Simulator Finansial Interaktif":
         step=500
     )
     
-    # Hitungan Matematika Ekonomi
     omset_getah_live = volume_getah_tahunan * 1000 * harga_simulasi
     omset_kayu_statis = volume_kayu_tahunan * 650000
     total_omset_live = omset_getah_live + omset_kayu_statis
@@ -393,7 +367,7 @@ elif menu == "📊 Simulator Finansial Interaktif":
     bcr_live = 2.85 * rasio_indeks
 
     st.write("---")
-    st.markdown("### 📈 Proyeksi Indikator Finansial Hasil Simulasi")
+    st.markdown("### 📈 Proyeksi Indikator Finansial Hasil Slider Simulasi")
     
     v1, v2, v3 = st.columns(3)
     with v1:

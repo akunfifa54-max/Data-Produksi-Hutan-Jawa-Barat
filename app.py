@@ -6,7 +6,7 @@ import os
 from PIL import Image
 
 # ==========================================
-# 1. FIXED CORPORATE LIGHT MODE
+# 1. FIXED CORPORATE LIGHT MODE (FULL BAHASA INDONESIA)
 # ==========================================
 st.set_page_config(
     page_title="KPH Sumedang Eco-Forest Valuation Dashboard",
@@ -15,7 +15,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS Light Mode - Mengunci warna teks agar kontras tinggi
+# Custom CSS Light Mode - Mengunci warna teks agar kontras tinggi dan formal
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
@@ -144,10 +144,10 @@ menu = st.sidebar.radio(
     [
         "🏠 Beranda Korporat Utama", 
         "📄 Karakteristik & Hayati Wilayah", 
-        "📦 Neraca Aliran Production", 
+        "📦 Neraca Aliran Produksi", 
         "💰 Valuasi TEV & Ekonomi Makro",
         "⚖️ Batas Kebijakan Trade-Off",
-        "📊 Slider Simulasi Finansial",  # FIX: Diubah menjadi Slider Simulasi
+        "📊 Slider Simulasi Finansial",
         "📂 Validasi Master Data CSV"
     ],
     label_visibility="collapsed"
@@ -202,10 +202,10 @@ if menu == "🏠 Beranda Korporat Utama":
     with col_side:
         st.markdown("""
         <div class='metric-container' style='border-top: 4px solid #166534; text-align:left; background-color:#ffffff !important;'>
-            <h4 style='color:#166534; margin-top:0;'>🎯 Core Capabilities</h4>
+            <h4 style='color:#166534; margin-top:0;'>🎯 Kemampuan Inti</h4>
             <p style='color:#0f172a; font-size:14px; font-weight:600;'>• <b>Valuasi TEV:</b> Menilai aset nyata pasar dan non-pasar (karbon).</p>
             <p style='color:#0f172a; font-size:14px; font-weight:600;'>• <b>Uji Sensitivitas Interaktif:</b> Simulasi ketahanan kas terhadap guncangan harga pasar.</p>
-            <p style='color:#0f172a; font-size:14px; font-weight:600;'>• <b>Policy Recommendation:</b> Penyusun strategi mitigasi konflik trade-off ekologi-ekonomi.</p>
+            <p style='color:#0f172a; font-size:14px; font-weight:600;'>• <b>Rekomendasi Kebijakan:</b> Penyusun strategi mitigasi konflik trade-off ekologi-ekonomi.</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -230,18 +230,18 @@ elif menu == "📄 Karakteristik & Hayati Wilayah":
             st.markdown("<div class='info-box-success' style='margin-top:0;'>", unsafe_allow_html=True)
             st.markdown("##### 📍 Kondisi Topografi & Tanah")
             st.write("""
-            Wilayah administrasi KPH Sumedang didominasi oleh perbukitan bergelombang tajam dengan karakteristik tanah latosol dan andosol subur. Iklim mikro jeung curah hujan anu stabil jadi prasyarat utama alusna pertumbuhan getah pinus.
+            Wilayah administrasi KPH Sumedang didominasi oleh perbukitan bergelombang tajam dengan karakteristik tanah latosol dan andosol yang subur. Kondisi iklim mikro serta curah hujan yang stabil menjadi prasyarat utama optimalnya pertumbuhan dan produktivitas getah pinus.
             """)
             st.markdown("</div>", unsafe_allow_html=True)
 
     with tab_status:
         st.markdown("### 🏛️ Kepastian Hukum Tata Kawasan Hutan")
-        st.write("Mayoritas wilayah KPH Sumedang berstatus hukum sebagai **HUTAN PRODUKSI (HP)**, dikombinasikan jeung **Hutan Lindung (HL)** di hulu DAS.")
+        st.write("Mayoritas wilayah KPH Sumedang berstatus hukum sebagai **HUTAN PRODUKSI (HP)**, dikombinasikan dengan **Hutan Lindung (HL)** di area hulu DAS.")
         
         st.markdown("<div class='info-box-success'>", unsafe_allow_html=True)
         st.markdown("##### 🔗 Relevansi Logis Terhadap Produksi Getah Pinus (HHBK)")
         st.write("""
-        Kawasan HP kudu ngahasilkeun untung tapi tetep lestari. Ku kituna, **penyadapan Getah Pinus (HHBK)** jadi jalan tengah anu cerdas. **Pohon pinus tetep nangtung pikeun nyerep karbon jeung nahan erosi, sedengkeun getahna bisa dipanen terus-terusan jang pamasukan.**
+        Kawasan Hutan Produksi diwajibkan memberikan kontribusi ekonomi namun dengan tetap menjaga kelestarian lingkungan. Oleh karena itu, **penyadapan Getah Pinus (HHBK)** menjadi solusi jalan tengah yang strategis. **Pohon pinus tetap berdiri tegak untuk menyerap karbon dan menahan erosi tanah, sementara komoditas getahnya dapat dipanen secara berkelanjutan sebagai sumber pendapatan.**
         """)
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -252,16 +252,16 @@ elif menu == "📄 Karakteristik & Hayati Wilayah":
             st.markdown("""
             <div class='metric-container' style='text-align: left; border-top: 4px solid #166534; background-color:#ffffff !important;'>
                 <h4 style='color:#166534;'>🌲 Varietas Flora (Vegetasi)</h4>
-                <p>• <b>Pinus merkusii:</b> Tegakan utama penopang ekonomi.</p>
-                <p>• <b>Kaliandra & Mahoni:</b> Penahan kebakaran jeung peningkat hara tanah.</p>
+                <p>• <b>Pinus merkusii:</b> Tegakan utama penopang nilai ekonomi kawasan.</p>
+                <p>• <b>Kaliandra & Mahoni:</b> Berfungsi sebagai penahan sebaran kebakaran serta peningkat unsur hara tanah.</p>
             </div>
             """, unsafe_allow_html=True)
         with c_fauna:
             st.markdown("""
             <div class='metric-container' style='text-align: left; border-top: 4px solid #d97706; background-color:#ffffff !important;'>
                 <h4 style='color:#d97706;'>🦅 Taksonomi Fauna (Satwa Liar)</h4>
-                <p>• <b>Predator:</b> Habitat manuk Elang Jawa (Spizaetus bartelsi) anu dilindungi.</p>
-                <p>• <b>Mamalia:</b> Populasi Bagong, Peucang, jeung sato liar lianna.</p>
+                <p>• <b>Predator:</b> Menjadi habitat penting burung Elang Jawa (Spizaetus bartelsi) yang dilindungi oleh negara.</p>
+                <p>• <b>Mamalia:</b> Populasi Babi Hutan, Kancil, serta berbagai jenis satwa liar endemik lainnya.</p>
             </div>
             """, unsafe_allow_html=True)
 
@@ -309,7 +309,7 @@ elif menu == "💰 Valuasi TEV & Ekonomi Makro":
         st.markdown("#### 🌍 Total Nilai Ekonomi Agregat Makro")
         st.metric(label="Estimasi Nilai Total Ekonomi Kawasan KPH Per Tahun", value="Rp 66,100,000,000")
         st.write("""
-        Melalui pemodelan TEV, Kelompok 2 bisa ngabuktikeun sacara ilmiah yen **Getah Pinus (HHBK) nyepeng 70% tina total valuasi ekonomi**. Ieu argumen kuat yen teu kudu negor tangkal jang meunangkeun duit gede.
+        Melalui pemodelan TEV, Kelompok 2 berhasil membuktikan secara ilmiah bahwa **Getah Pinus (HHBK) memegang 70% dari total valuasi ekonomi kawasan**. Ini menjadi argumen akademik yang kuat bahwa optimalisasi ekonomi tidak harus dilakukan dengan melakukan penebangan pohon secara masif.
         """)
 
 # ==========================================
@@ -323,32 +323,32 @@ elif menu == "⚖️ Batas Kebijakan Trade-Off":
         st.markdown("""
         <div class="info-box-warn">
             <h4>📈 Sektor Dorongan Ekonomi Komersial</h4>
-            <p>Nyadap getah kaleuleuwihi jeung negor tangkal gancang teuing demi ngudag profit instan.</p>
-            <b>Risiko:</b> Tangkal ruksak/tumbang, sarta kamampuan leuweung nyerep karbon bakal turun drastis.
+            <p>Melakukan penyadapan getah secara berlebihan dan mempercepat siklus penebangan pohon demi mengejar profit jangka pendek.</p>
+            <b>Risiko:</b> Kerusakan fisik pada pohon, potensi pohon tumbang meningkat, serta kemampuan hutan dalam menyerap karbon akan menurun drastis.
         </div>
         """, unsafe_allow_html=True)
     with col_r:
         st.markdown("""
         <div class="info-box-warn" style="border-left-color: #1e40af !important; background-color: #eff6ff !important; color: #1e3a8a !important; border: 1px solid #bfdbfe;">
             <h4>🌍 Sektor Proteksi Ekosistem & Lingkungan</h4>
-            <p>Nyelang/ngalarang total penebangan jeung nyadap getah demi ngajaga alam utuh.</p>
-            <b>Risiko:</b> Pendapatan daerah turun drastis jeung masarakat penyadap lokal bakal kaleungitan pagawean.
+            <p>Melarang total seluruh aktivitas penebangan komersial dan penyadapan getah demi menjaga kemurnian kondisi alam.</p>
+            <b>Risiko:</b> Pendapatan asli daerah dari sektor kehutanan akan menurun drastis dan masyarakat penyadap lokal akan kehilangan mata pencaharian utamanya.
         </div>
         """, unsafe_allow_html=True)
         
     st.markdown("""
     <div class="info-box-success">
         <h4>💡 Resolusi Konseptual Kelompok 2: Optimalisasi HHBK Berkelanjutan</h4>
-        <p>Ku nilai <b>BCR baseline 2.85</b>, skema pemanfaatan Getah Pinus (HHBK) mangrupakeun jalan tengah (equilibrium) pangalusna. Duit asup, tangkal tetep nangtung ngajaga lingkungan.</p>
+        <p>Dengan nilai <b>BCR baseline sebesar 2.85</b>, skema pemanfaatan Getah Pinus (HHBK) merupakan titik keseimbangan (equilibrium) terbaik. Pendapatan ekonomi tetap terjaga, sementara fungsi ekologis pohon dalam melindungi lingkungan tetap berjalan optimal.</p>
     </div>
     """, unsafe_allow_html=True)
 
 # ==========================================
 # MODUL 6: SLIDER SIMULASI FINANSIAL
 # ==========================================
-elif menu == "📊 Slider Simulasi Finansial":  # FIX: Diubah menjadi Slider Simulasi
-    st.header("📊 Slider Simulasi Sensitivitas & Kelayakan Finansial Dinamis")  # FIX: Diubah judulnya
-    st.write("Uji ketahanan finansial investasi KPH Sumedang dumasar kana parobahan harga getah pinus sacara real-time.")
+elif menu == "📊 Slider Simulasi Finansial":
+    st.header("📊 Slider Simulasi Sensitivitas & Kelayakan Finansial Dinamis")
+    st.write("Uji ketahanan finansial investasi KPH Sumedang berdasarkan perubahan harga jual getah pinus secara real-time.")
 
     harga_simulasi = st.slider(
         "Atur Prakiraan Harga Jual Getah Pinus (Rupiah / Kilogram):",
@@ -388,7 +388,7 @@ elif menu == "📊 Slider Simulasi Finansial":  # FIX: Diubah menjadi Slider Sim
         chart_df, x='Kategori Sumber Omset', y='Nilai Pendapatan Bruto (Rp)',
         color='Kategori Sumber Omset', text_auto='.3s',
         color_discrete_sequence=['#b45309', '#166534'],
-        title=f"Perbandingan Omset dina Tingkat Harga Rp {harga_simulasi:,} / Kg"
+        title=f"Perbandingan Omset pada Tingkat Harga Rp {harga_simulasi:,} / Kg"
     )
     fig_live = apply_light_theme_layout(fig_live)
     st.plotly_chart(fig_live, use_container_width=True)

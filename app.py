@@ -183,7 +183,7 @@ if menu == "🏠 Beranda Korporat Utama":
         Platform dashboard digital ini dirancang secara khusus untuk menganalisis struktur tata kelola ekonomi makro dan mikro 
         pada **Kesatuan Pemangkuan Hutan (KPH) Sumedang**. Fokus kajian ilmiah diarahkan pada tegakan vegetasi komoditas **Pinus (*Pinus merkusii*)**.
         
-        Melalui metodologi Ekonomi Sumber Daya Alam, kami membedah bagaimana pemanfaatan ekonomi komersial dari ekstraksi hasil hutan 
+        Melalui metodologi Ekonomi Sumber Daya Alam, kami membedah bagaimana pemanfaatan ekonomi komersial dari extraction hasil hutan 
         dapat dioptimalkan tanpa mendegradasi fungsi perlindungan lingkungan hidup (*sustainable forest management*).
         """)
         
@@ -268,7 +268,7 @@ elif menu == "📄 Karakteristik & Hayati Wilayah":
 # ==========================================
 # MODUL 3: NERACA ALIRAN PRODUKSI
 # ==========================================
-elif menu == "📦 Neraca Aliran Produksi":  # FIX: Sekarang namanya sudah sama dengan menu navigasi
+elif menu == "📦 Neraca Aliran Produksi":
     st.header("📦 Neraca Aliran Output Hasil Produksi Tahunan")
     
     fig_prod = px.bar(
@@ -348,7 +348,8 @@ elif menu == "⚖️ Batas Kebijakan Trade-Off":
 # ==========================================
 elif menu == "📊 Slider Simulasi Finansial":
     st.header("📊 Slider Simulasi Sensitivitas & Kelayakan Finansial Dinamis")
-    st.write("Uji ketahanan finansial investasi KPH Sumedang berdasarkan perubahan harga jual getah pinus secara real-time.")
+    # FIX: Menampilkan nama kelompok pada teks pengantar komponen simulasi
+    st.write("Uji ketahanan finansial investasi KPH Sumedang berdasarkan perubahan harga jual getah pinus secara real-time. (Pemodelan oleh: **PBL Kelompok 2**)")
 
     harga_simulasi = st.slider(
         "Atur Prakiraan Harga Jual Getah Pinus (Rupiah / Kilogram):",
@@ -384,11 +385,12 @@ elif menu == "📊 Slider Simulasi Finansial":
         'Nilai Pendapatan Bruto (Rp)': [omset_getah_live, omset_kayu_statis]
     })
     
+    # FIX: Menambahkan identitas PBL Kelompok 2 langsung ke dalam judul grafik chart
     fig_live = px.bar(
         chart_df, x='Kategori Sumber Omset', y='Nilai Pendapatan Bruto (Rp)',
         color='Kategori Sumber Omset', text_auto='.3s',
         color_discrete_sequence=['#b45309', '#166534'],
-        title=f"Perbandingan Omset pada Tingkat Harga Rp {harga_simulasi:,} / Kg"
+        title=f"PBL Kelompok 2: Analisis Omset pada Tingkat Harga Rp {harga_simulasi:,} / Kg"
     )
     fig_live = apply_light_theme_layout(fig_live)
     st.plotly_chart(fig_live, use_container_width=True)

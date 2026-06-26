@@ -246,7 +246,7 @@ elif menu == "📄 Karakteristik & Hayati Wilayah":
         st.markdown("<div class='info-box-success'>", unsafe_allow_html=True)
         st.markdown("##### 🔗 Relevansi Logis Terhadap Produksi Getah Pinus (HHBK)")
         st.write("""
-        Kawasan Hutan Produksi diwajibkan memberikan kontribusi ekonomi namun dengan tetap menjaga kelestarian lingkungan. Oleh karena itu, **penyadapan Getah Pinus (HHBK)** menjadi solusi jalan tengah yang strategis. **Pohon pinus tetap berdiri tegak untuk menyerap karbon dan menahan erosi tanah, sementara komoditas getahnya dapat dipanen secara berkelanjutan sebagai sumber pendapatan.**
+        Kawasan Hutan Proksuksi diwajibkan memberikan kontribusi ekonomi namun dengan tetap menjaga kelestarian lingkungan. Oleh karena itu, **penyadapan Getah Pinus (HHBK)** menjadi solusi jalan tengah yang strategis. **Pohon pinus tetap berdiri tegak untuk menyerap karbon dan menahan erosi tanah, sementara komoditas getahnya dapat dipanen secara berkelanjutan sebagai sumber pendapatan.**
         """)
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -349,32 +349,29 @@ elif menu == "⚖️ Batas Kebijakan Trade-Off":
     """, unsafe_allow_html=True)
 
 # ==========================================
-# MODUL 6: SLIDER SIMULASI FINANSIAL (SUMEDANG DATA SCENARIO ANALYSIS)
+# MODUL 6: SLIDER SIMULASI FINANSIAL (HARGA KARBON REMOVED)
 # ==========================================
 elif menu == "📊 Slider Simulasi Finansial":
     st.header("📊 Slider Simulasi Sensitivitas & Perbandingan Skenario Finansial")
     st.write("Uji komparatif simulasi multi-skenario hasil pemodelan komoditas kehutanan **KPH Sumedang** oleh **PBL Kelompok 2**.")
     
-    # 1. Parameter Input Sliders - Mengadopsi Layout Atas di Video Menggunakan Data Sumedang
+    # 1. Parameter Input Sliders (Tanpa Harga Kredit Karbon)
     st.markdown("### 🛠️ Pengaturan Parameter Utama (Spesifik Hutan Pinus Sumedang)")
     c_in1, c_in2, c_in3 = st.columns(3)
     with c_in1:
         luas_simulasi = st.slider("Luas Kawasan Simulasi Pinus (Ha):", 1000, 40000, luas_total_hutan_sumedang, step=250)
-        daur_tebang = st.slider("Daur Siklus Tegakan Pinus (Tahun):", 10, 80, 30, step=5)
     with c_in2:
         harga_getah = st.slider("Harga Jual Getah Pinus (Rp/Kg):", 5000, 25000, 11500, step=500)
         harga_kayu = st.slider("Harga Jual Kayu Log Pinus (Rp/m³):", 300000, 2000000, 650000, step=25000)
     with c_in3:
+        daur_tebang = st.slider("Daur Siklus Tegakan Pinus (Tahun):", 10, 80, 30, step=5)
         suku_bunga = st.slider("Suku Bunga / Discount Rate (%):", 2.0, 20.0, 10.0, step=0.5)
-        harga_karbon = st.slider("Harga Kredit Karbon (Rp/tCO2e):", 50000, 300000, 150000, step=10000)
         
-    # 2. Perhitungan Logika Simulasi Finansial Berbasis Komoditas Sumedang
-    # Rasio pembagi dinamis berdasarkan luas area yang digeser slider
+    # 2. Perhitungan Logika Finansial Riil Berbasis Komoditas Sumedang
     rasio_skala = luas_simulasi / luas_total_hutan_sumedang
     volume_getah_live = volume_getah_tahunan_sumedang * rasio_skala
     volume_kayu_live = volume_kayu_tahunan_sumedang * rasio_skala
     
-    # Pendapatan fisik (Getah + Kayu)
     omset_getah = volume_getah_live * 1000 * harga_getah
     omset_kayu = volume_kayu_live * harga_kayu
     total_omset_komersial = omset_getah + omset_kayu
@@ -384,8 +381,8 @@ elif menu == "📊 Slider Simulasi Finansial":
     bcr_tradisional = 1.85 + (harga_getah / 15000)
     irr_tradisional = 12.5 + (harga_getah / 4000)
     
-    # Skenario B (Hijau Terintegrasi: Ditambah Nilai Valuasi Serapan Karbon)
-    pemasukan_serapan_karbon = luas_simulasi * 55 * harga_karbon  # Proksi serapan karbon pinus per Ha
+    # Skenario B (Hijau Terintegrasi: Ditambah Nilai Valuasi Serapan Karbon Tetap Rp150.000/tCO2e secara internal)
+    pemasukan_serapan_karbon = luas_simulasi * 55 * 150000  
     npv_hijau = npv_tradisional + pemasukan_serapan_karbon
     bcr_hijau = bcr_tradisional + 0.65
     irr_hijau = irr_tradisional + 3.3
@@ -409,7 +406,7 @@ elif menu == "📊 Slider Simulasi Finansial":
 
     st.write("---")
     
-    # 4. Visualisasi Grafik Perbandingan NPV Skenario (Gaya Video Referensi)
+    # 4. Visualisasi Grafik Perbandingan NPV Skenario
     st.markdown("### 📈 Visualisasi Grafik Perbandingan NPV")
     chart_data = pd.DataFrame({
         'Skenario Analisis': ['Skenario A (Tradisional)', 'Skenario B (Hijau Terintegrasi)'],
@@ -425,7 +422,6 @@ elif menu == "📊 Slider Simulasi Finansial":
     fig_live = apply_light_theme_layout(fig_live)
     st.plotly_chart(fig_live, use_container_width=True)
     
-    # Analisis Keterangan Teks Grafik
     st.markdown(f"""
     > 📌 **Analisis Grafik Perbandingan NPV:**
     > * **Skenario B (Hijau Terintegrasi)** menghasilkan keuntungan finansial jauh lebih tinggi berkat inklusi nilai ekonomi serapan karbon hutan pinus.  
@@ -434,7 +430,7 @@ elif menu == "📊 Slider Simulasi Finansial":
 
     st.write("---")
 
-    # 5. Tabel Data Komparasi Indikator Finansial (Sama dengan format tabel di video)
+    # 5. Tabel Data Komparasi Indikator Finansial
     st.markdown("### 📋 Tabel Perbandingan Parameter Kelayakan Investasi")
     
     tabel_komparasi = pd.DataFrame({
@@ -444,7 +440,7 @@ elif menu == "📊 Slider Simulasi Finansial":
     })
     st.dataframe(tabel_komparasi, use_container_width=True, hide_index=True)
 
-    # 6. Kesimpulan Kotak Rekomendasi Hijau (Gaya Video Referensi)
+    # 6. Kesimpulan Kotak Rekomendasi Hijau
     st.markdown(f"""
     <div class="info-box-success">
         <h4>💡 Ringkasan Rekomendasi Finansial - PBL Kelompok 2</h4>
